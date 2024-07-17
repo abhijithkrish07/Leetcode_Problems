@@ -34,3 +34,26 @@ function pivotIndex(nums: number[]): number {
     }
     return -1;
 };
+
+Improvised Solution:
+
+function pivotIndex(nums: number[]): number {
+    const arrayLength = nums.length;
+    let sum = 0;
+    for(let i = 0; i< arrayLength; i++){
+        sum+= nums[i];
+    }
+    let lSum = 0;
+    for(let i = 0; i< arrayLength; i++){
+        // why x2? If it really needs to left side equal right side, then
+        // at the pivot,the left side must be equal to the sum/2 or sum
+        // will be equal to lsumx2 
+        // subtract that index because, so it's purely left and right equating
+        if(lSum *2 === sum - nums[i]){
+            return i;
+        }
+        lSum+= nums[i]
+    }
+    return -1;
+    
+};
