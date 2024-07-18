@@ -1,7 +1,7 @@
 July 17
 Easy : 
 
-Q.
+Question.
 Given an array of integers nums, calculate the pivot index of this array.
 
 The pivot index is the index where the sum of all the numbers strictly to the left of the index is equal to the sum of all the numbers strictly to the index's right.
@@ -61,7 +61,7 @@ function pivotIndex(nums: number[]): number {
 
 July 18:
 
-Q:
+Question:
 
 Given two 0-indexed integer arrays nums1 and nums2, return a list answer of size 2 where:
 
@@ -97,4 +97,36 @@ function findDifference(nums1: number[], nums2: number[]): number[][] {
   }
 
   return[Array.from(res1),Array.from(res2)]
+};
+
+
+Question.
+
+There is a biker going on a road trip. The road trip consists of n + 1 points at different altitudes. The biker starts his trip on point 0 with altitude equal 0.
+
+You are given an integer array gain of length n where gain[i] is the net gain in altitude between points i​​​​​​ and i + 1 for all (0 <= i < n). Return the highest altitude of a point.
+
+ 
+
+Example 1:
+
+Input: gain = [-5,1,5,0,-7]
+Output: 1
+Explanation: The altitudes are [0,-5,-4,1,1,-6]. The highest is 1.
+Example 2:
+
+Input: gain = [-4,-3,-2,-1,4,3,2]
+Output: 0
+Explanation: The altitudes are [0,-4,-7,-9,-10,-6,-3,-1]. The highest is 0.
+
+Solution:
+
+function largestAltitude(gain: number[]): number {
+    gain.unshift(0);
+    let res = [0];
+    for(let i=1;i<gain.length; i++){
+        res[i] = res[i-1] + gain[i];
+    }
+    // since the .sort() converts the number to string and compares.Better to pass a compare function
+    return res.sort((val1,val2) => val1 -val2)[res.length - 1];
 };
