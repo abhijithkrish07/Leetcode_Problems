@@ -130,3 +130,43 @@ function largestAltitude(gain: number[]): number {
     // since the .sort() converts the number to string and compares.Better to pass a compare function
     return res.sort((val1,val2) => val1 -val2)[res.length - 1];
 };
+
+
+Question:
+
+Given an array of integers arr, return true if the number of occurrences of each value in the array is unique or false otherwise.
+
+ 
+
+Example 1:
+
+Input: arr = [1,2,2,1,1,3]
+Output: true
+Explanation: The value 1 has 3 occurrences, 2 has 2 and 3 has 1. No two values have the same number of occurrences.
+Example 2:
+
+Input: arr = [1,2]
+Output: false
+Example 3:
+
+Input: arr = [-3,0,1,-3,1,1,1,-3,10,0]
+Output: true
+
+Solution:
+
+function uniqueOccurrences(arr: number[]): boolean {
+    const uniqueValues = new Map();
+    arr.map(val => {
+        if (uniqueValues.has(val)) {
+            const existingCount = uniqueValues.get(val);
+            uniqueValues.set(val, existingCount + 1)
+        } else {
+
+            uniqueValues.set(val, 1)
+        }
+    });
+    if((new Set(Array.from(uniqueValues.values())).size) === uniqueValues.size){
+        return true;
+    }
+    return false
+};
