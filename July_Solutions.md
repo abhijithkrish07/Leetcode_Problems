@@ -204,3 +204,29 @@ function findMaxAverage(nums: number[], k: number): number {
     return maxAvgSum;
     }
 };
+
+Solution for all datasets with a different approach
+
+function findMaxAverage(nums: Int32Array, k: number): number {
+    let windowSum = 0;
+    let maxAvgSum = Number.MIN_SAFE_INTEGER;
+
+    // Calculate the sum of the first window
+    for (let i = 0; i < k; i++) {
+        windowSum += nums[i];
+    }
+
+    maxAvgSum = windowSum;
+
+    // Slide the window along the array
+    for (let i = k; i < nums.length; i++) {
+        // Add the next number to the window sum and subtract the number that's sliding out of the window
+        windowSum += nums[i] - nums[i - k];
+
+        // Update maxAvgSum if the new average is larger
+        maxAvgSum = Math.max(maxAvgSum, windowSum);
+    }
+
+    // Return the maximum average
+    return maxAvgSum / k;
+}
