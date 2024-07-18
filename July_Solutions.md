@@ -20,8 +20,7 @@ The pivot index is 3.
 Left sum = nums[0] + nums[1] + nums[2] = 1 + 7 + 3 = 11
 Right sum = nums[4] + nums[5] = 5 + 6 = 11
 
-A.
-
+//Code
 function findSum(nums: number[]): number {
     return nums.reduce((acc, cur) => {return acc+cur}, 0);
 }
@@ -36,7 +35,7 @@ function pivotIndex(nums: number[]): number {
 };
 
 Improvised Solution:
-
+//Code
 function pivotIndex(nums: number[]): number {
     const arrayLength = nums.length;
     let sum = 0;
@@ -81,6 +80,7 @@ For nums2, nums2[0] = 2 is present at index 1 of nums1, whereas nums2[1] = 4 and
 
 
 Solution:
+//Code
 function findDifference(nums1: number[], nums2: number[]): number[][] {
   const res1= new Set<number>;
   const res2= new Set<number>;
@@ -120,7 +120,7 @@ Output: 0
 Explanation: The altitudes are [0,-4,-7,-9,-10,-6,-3,-1]. The highest is 0.
 
 Solution:
-
+//Code
 function largestAltitude(gain: number[]): number {
     gain.unshift(0);
     let res = [0];
@@ -153,7 +153,7 @@ Input: arr = [-3,0,1,-3,1,1,1,-3,10,0]
 Output: true
 
 Solution:
-
+//Code
 function uniqueOccurrences(arr: number[]): boolean {
     const uniqueValues = new Map();
     arr.map(val => {
@@ -191,7 +191,7 @@ Input: nums = [5], k = 1
 Output: 5.00000
 
 Answer: Solution is good, but time limit exceeds for larger input
-
+//Code
 function findMaxAverage(nums: number[], k: number): number {
     if(nums.length < Math.pow(10,5)){
         let maxAvgSum = Number.MIN_SAFE_INTEGER;
@@ -206,7 +206,7 @@ function findMaxAverage(nums: number[], k: number): number {
 };
 
 Solution for all datasets with a different approach
-
+// Code
 function findMaxAverage(nums: Int32Array, k: number): number {
     let windowSum = 0;
     let maxAvgSum = Number.MIN_SAFE_INTEGER;
