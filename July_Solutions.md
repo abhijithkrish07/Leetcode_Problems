@@ -20,7 +20,7 @@ The pivot index is 3.
 Left sum = nums[0] + nums[1] + nums[2] = 1 + 7 + 3 = 11
 Right sum = nums[4] + nums[5] = 5 + 6 = 11
 
-//Code
+```
 function findSum(nums: number[]): number {
     return nums.reduce((acc, cur) => {return acc+cur}, 0);
 }
@@ -33,9 +33,9 @@ function pivotIndex(nums: number[]): number {
     }
     return -1;
 };
-
+```
 Improvised Solution:
-//Code
+```
 function pivotIndex(nums: number[]): number {
     const arrayLength = nums.length;
     let sum = 0;
@@ -56,7 +56,7 @@ function pivotIndex(nums: number[]): number {
     return -1;
     
 };
-
+```
 
 July 18:
 
@@ -80,7 +80,7 @@ For nums2, nums2[0] = 2 is present at index 1 of nums1, whereas nums2[1] = 4 and
 
 
 Solution:
-//Code
+```
 function findDifference(nums1: number[], nums2: number[]): number[][] {
   const res1= new Set<number>;
   const res2= new Set<number>;
@@ -98,7 +98,7 @@ function findDifference(nums1: number[], nums2: number[]): number[][] {
 
   return[Array.from(res1),Array.from(res2)]
 };
-
+```
 
 Question.
 
@@ -120,7 +120,7 @@ Output: 0
 Explanation: The altitudes are [0,-4,-7,-9,-10,-6,-3,-1]. The highest is 0.
 
 Solution:
-//Code
+```
 function largestAltitude(gain: number[]): number {
     gain.unshift(0);
     let res = [0];
@@ -131,7 +131,7 @@ function largestAltitude(gain: number[]): number {
     return res.sort((val1,val2) => val1 -val2)[res.length - 1];
 };
 
-
+```
 Question:
 
 Given an array of integers arr, return true if the number of occurrences of each value in the array is unique or false otherwise.
@@ -153,7 +153,7 @@ Input: arr = [-3,0,1,-3,1,1,1,-3,10,0]
 Output: true
 
 Solution:
-//Code
+```
 function uniqueOccurrences(arr: number[]): boolean {
     const uniqueValues = new Map();
     arr.map(val => {
@@ -171,7 +171,7 @@ function uniqueOccurrences(arr: number[]): boolean {
     return false
 };
 
-
+```
 Question:
 
 You are given an integer array nums consisting of n elements, and an integer k.
@@ -191,7 +191,7 @@ Input: nums = [5], k = 1
 Output: 5.00000
 
 Answer: Solution is good, but time limit exceeds for larger input
-//Code
+```
 function findMaxAverage(nums: number[], k: number): number {
     if(nums.length < Math.pow(10,5)){
         let maxAvgSum = Number.MIN_SAFE_INTEGER;
@@ -204,29 +204,28 @@ function findMaxAverage(nums: number[], k: number): number {
     return maxAvgSum;
     }
 };
-
+```
 Solution for all datasets with a different approach
-// Code
-function findMaxAverage(nums: Int32Array, k: number): number {
+```
+function findMaxAverage(nums: number[], k: number): number {
     let windowSum = 0;
-    let maxAvgSum = Number.MIN_SAFE_INTEGER;
-
-    // Calculate the sum of the first window
-    for (let i = 0; i < k; i++) {
-        windowSum += nums[i];
+    let maxSum = Number.MIN_SAFE_INTEGER;
+    //getting the first window sum
+    for(let i = 0; i<k ;i++){
+        windowSum+= nums[i]
     }
-
-    maxAvgSum = windowSum;
-
-    // Slide the window along the array
-    for (let i = k; i < nums.length; i++) {
-        // Add the next number to the window sum and subtract the number that's sliding out of the window
-        windowSum += nums[i] - nums[i - k];
-
-        // Update maxAvgSum if the new average is larger
-        maxAvgSum = Math.max(maxAvgSum, windowSum);
+    maxSum = windowSum;
+    // now moving on to finding the maxSum
+    for(let i = k; i< nums.length; i++){
+        //moving the window,
+        // [1,2,3,4] is the array and if k is 2
+        // first sum will be [1,2] then I'm adding 3 to sum and subtracting
+        // 1 from the sum
+        windowSum += nums[i] - nums[i - k]
+        // And then finding the max of the window to that of maxSum
+        maxSum = Math.max(windowSum, maxSum);
     }
+    return maxSum/k;
 
-    // Return the maximum average
-    return maxAvgSum / k;
-}
+};
+```
