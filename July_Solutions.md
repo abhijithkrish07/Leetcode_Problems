@@ -170,3 +170,37 @@ function uniqueOccurrences(arr: number[]): boolean {
     }
     return false
 };
+
+
+Question:
+
+You are given an integer array nums consisting of n elements, and an integer k.
+
+Find a contiguous subarray whose length is equal to k that has the maximum average value and return this value. Any answer with a calculation error less than 10-5 will be accepted.
+
+ 
+
+Example 1:
+
+Input: nums = [1,12,-5,-6,50,3], k = 4
+Output: 12.75000
+Explanation: Maximum average is (12 - 5 - 6 + 50) / 4 = 51 / 4 = 12.75
+Example 2:
+
+Input: nums = [5], k = 1
+Output: 5.00000
+
+Answer: Solution is good, but time limit exceeds for larger input
+
+function findMaxAverage(nums: number[], k: number): number {
+    if(nums.length < Math.pow(10,5)){
+        let maxAvgSum = Number.MIN_SAFE_INTEGER;
+    for(let i=0;i+k<=nums.length; i++){
+        const avgSum = (nums.slice(i,i+k).reduce(((a,b) => a+b), 0) )/ k;
+        if(maxAvgSum < avgSum){
+            maxAvgSum = avgSum;
+        }
+    }
+    return maxAvgSum;
+    }
+};
