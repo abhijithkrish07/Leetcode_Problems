@@ -229,3 +229,47 @@ function findMaxAverage(nums: number[], k: number): number {
 
 };
 ```
+
+Question:
+206. Reverse Linked List
+
+Solution
+```
+/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *     val: number
+ *     next: ListNode | null
+ *     constructor(val?: number, next?: ListNode | null) {
+ *         this.val = (val===undefined ? 0 : val)
+ *         this.next = (next===undefined ? null : next)
+ *     }
+ * }
+ */
+
+function reverseList(head: ListNode | null): ListNode | null {
+    let prev = null;
+    let current = head;
+    let next = null;
+
+    while (current != null) {
+        // take 1 , 2 , 3
+        // take example of 2 and 3 link
+
+        // store the next node to move further
+        // next.val = 3 next.next = 4 
+        next = current.next;
+
+        // reversing the list
+        // current.next = 1    
+        current.next = prev;
+
+        //below two steps is to move forward
+        // prev.val = 2 prev.next = 3
+        prev = current
+        // current.val = 3 current.next = 4
+        current = next;
+    }
+    return prev;
+};
+```
