@@ -273,3 +273,53 @@ function reverseList(head: ListNode | null): ListNode | null {
     return prev;
 };
 ```
+Question:
+872. Leaf-Similar Trees
+
+Input: root1 = [3,5,1,6,2,9,8,null,null,7,4], root2 = [3,5,1,6,7,4,2,null,null,null,null,null,null,9,8]
+Output: true
+
+```
+/**
+ * Definition for a binary tree node.
+ * class TreeNode {
+ *     val: number
+ *     left: TreeNode | null
+ *     right: TreeNode | null
+ *     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+ *         this.val = (val===undefined ? 0 : val)
+ *         this.left = (left===undefined ? null : left)
+ *         this.right = (right===undefined ? null : right)
+ *     }
+ * }
+ */
+
+function leafVals(root: TreeNode | null, leaf: number[]) {
+    if (root == null)
+        return ;
+    leafVals(root.left, leaf);
+    if(root.left === null && root.right === null){
+        leaf.push(root.val)
+    }
+    leafVals(root.right, leaf);
+}
+
+function leafSimilar(root1: TreeNode | null, root2: TreeNode | null): boolean {
+    const leaf1 = [];
+    const leaf2 = [];
+
+    leafVals(root1, leaf1);
+    leafVals(root2, leaf2);
+
+    if(leaf1.length !== leaf2.length){
+        return false
+    }
+
+    for(let i = 0; i< leaf1.length;i ++){
+        if(leaf1[i]!= leaf2[i])
+            return false;
+    }
+
+    return true
+};
+```
