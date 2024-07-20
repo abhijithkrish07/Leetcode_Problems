@@ -390,7 +390,7 @@ Explanation:
 4 --> 100
 5 --> 101
 
-First Solution:
+Solution using JS in-built functions:
 ```
 function countOnes(bin: string): number{
     let counter = 0;
@@ -407,6 +407,24 @@ function countBits(n: number): number[] {
 
     for(let i = 0;i<= n;i++){
         numArr.push(countOnes(i.toString(2)));
+    }
+    return numArr;
+};
+```
+
+Optimal Solution:
+```
+function countBits(n: number): number[] {
+    const numArr = new Array(n+1).fill(0);
+    // we are starting from 1st position
+    for (let i = 1; i <= n; i++) {
+        // i>> 1 => means pushing 1 bit to the right
+        // basically means to divide by 2
+        // i & 1 checks the least significant bit
+        // odd & 1 => 1
+        // even & 1 => 0
+      // numArr(1) = numArr(0) +  1.   => 1
+        numArr[i] = numArr[i>>1] + (i&1);
     }
     return numArr;
 };
