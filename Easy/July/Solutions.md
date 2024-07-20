@@ -1,6 +1,3 @@
-July 17
-Easy : 
-
 Question.
 Given an array of integers nums, calculate the pivot index of this array.
 
@@ -321,5 +318,48 @@ function leafSimilar(root1: TreeNode | null, root2: TreeNode | null): boolean {
     }
 
     return true
+};
+```
+Question:
+104. Maximum Depth of Binary Tree
+
+A binary tree's maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
+
+Eg1:
+Input: root = [3,9,20,null,null,15,7]
+Output: 3
+Example 2:
+
+Input: root = [1,null,2]
+Output: 2
+
+Code
+```
+/**
+ * Definition for a binary tree node.
+ * class TreeNode {
+ *     val: number
+ *     left: TreeNode | null
+ *     right: TreeNode | null
+ *     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+ *         this.val = (val===undefined ? 0 : val)
+ *         this.left = (left===undefined ? null : left)
+ *         this.right = (right===undefined ? null : right)
+ *     }
+ * }
+ */
+
+    function dfs(node: TreeNode | null): number {
+        if (!node) {
+            return 0;
+        }
+        let left = dfs(node.left);
+        let right = dfs(node.right);
+        return Math.max(left, right) + 1;
+    }
+
+
+function maxDepth(root: TreeNode | null): number {
+    return dfs(root);
 };
 ```
