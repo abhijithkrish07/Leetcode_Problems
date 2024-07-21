@@ -7,7 +7,7 @@ Return the number of good nodes in the binary tree.
  
 
 Example 1:
-For image: https://leetcode.com/problems/count-good-nodes-in-binary-tree/description/?envType=study-plan-v2&envId=leetcode-75
+<img width="744" alt="image" src="https://github.com/user-attachments/assets/e0a1236c-87a1-471a-971d-24188f500551">
 Input: root = [3,1,4,3,null,1,5]
 Output: 4
 Explanation: Nodes in blue are good.
