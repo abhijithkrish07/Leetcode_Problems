@@ -472,3 +472,52 @@ function singleNumber(nums: number[]): number {
     return result;
 };
 ```
+
+Question:
+
+Code
+700. Search in a Binary Search Tree
+
+You are given the root of a binary search tree (BST) and an integer val.
+
+Find the node in the BST that the node's value equals val and return the subtree rooted with that node. If such a node does not exist, return null.
+
+Example 1:
+
+Input: root = [4,2,7,1,3], val = 2
+Output: [2,1,3]
+
+<img width="744" alt="image" src="https://github.com/user-attachments/assets/390eefda-7e52-401c-a814-f77e98983d40">
+
+```
+/**
+ * Definition for a binary tree node.
+ * class TreeNode {
+ *     val: number
+ *     left: TreeNode | null
+ *     right: TreeNode | null
+ *     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+ *         this.val = (val===undefined ? 0 : val)
+ *         this.left = (left===undefined ? null : left)
+ *         this.right = (right===undefined ? null : right)
+ *     }
+ * }
+ */
+function bst(root: TreeNode | null, val: number) {
+    if(!root){
+        return null;
+    }
+    if(root.val === val){
+        return root;
+    }
+    if(val< root.val)
+        return bst(root.left,val);
+    if(val> root.val)
+        return bst(root.right,val);
+}
+
+function searchBST(root: TreeNode | null, val: number): TreeNode | null {
+    return bst(root,val);  
+};
+```
+
