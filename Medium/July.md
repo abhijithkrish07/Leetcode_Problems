@@ -45,7 +45,66 @@ function dfs(node: TreeNode | null, maxNumSoFar: number): number {
     return result;
 }
 
+
+
 function goodNodes(root: TreeNode | null): number {
     return dfs(root, Number.MIN_SAFE_INTEGER);
 };
+```
+
+450. Delete Node in a BST
+
+Given a root node reference of a BST and a key, delete the node with the given key in the BST. Return the root node reference (possibly updated) of the BST.
+
+Basically, the deletion can be divided into two stages:
+
+Search for a node to remove.
+If the node is found, delete the node.
+ 
+
+<img width="805" alt="image" src="https://github.com/user-attachments/assets/9bdba321-eedb-495a-987a-0d275a614cce">
+
+```
+/**
+ * Definition for a binary tree node.
+ * class TreeNode {
+ *     val: number
+ *     left: TreeNode | null
+ *     right: TreeNode | null
+ *     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+ *         this.val = (val===undefined ? 0 : val)
+ *         this.left = (left===undefined ? null : left)
+ *         this.right = (right===undefined ? null : right)
+ *     }
+ * }
+ */
+
+function deleteNode(root: TreeNode | null, val: number): TreeNode | null {
+    if(!root){
+        return null;
+    }
+    if(val< root.val){
+        root.left = deleteNode(root.left,val);
+    } else if(val > root.val){
+        root.right = deleteNode(root.right,val);
+    } else {
+        if(!root.left)
+            return root.right;
+        if(!root.right)
+            return root.left;
+        
+        root.val = minValue(root.right);
+        root.right = deleteNode(root.right,root.val)
+    }
+    return root;
+};
+
+function minValue(node: TreeNode): number{
+    let minVal = node.val;
+    while(node.left!=null){
+        minVal = node.left.val;
+        node = node.left
+    }
+    return minVal;
+}
 ```
