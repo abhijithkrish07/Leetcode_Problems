@@ -7,7 +7,7 @@ Return the number of good nodes in the binary tree.
  
 
 Example 1:
-<img width="744" alt="image" src="https://github.com/user-attachments/assets/e0a1236c-87a1-471a-971d-24188f500551">
+<br> <img width="744" alt="image" src="https://github.com/user-attachments/assets/e0a1236c-87a1-471a-971d-24188f500551"> <br>
 
 
 
@@ -62,7 +62,7 @@ Search for a node to remove.
 If the node is found, delete the node.
  
 
-<img width="805" alt="image" src="https://github.com/user-attachments/assets/9bdba321-eedb-495a-987a-0d275a614cce">
+<br> <img width="805" alt="image" src="https://github.com/user-attachments/assets/9bdba321-eedb-495a-987a-0d275a614cce"> <br>
 
 ```
 /**
@@ -205,7 +205,7 @@ Example 1:
 
 
 Input: a = 2, b = 6, c = 5
-<img width="653" alt="image" src="https://github.com/user-attachments/assets/44be71fe-419c-4aeb-b034-740eba770ae3"> <br>
+<br> <img width="653" alt="image" src="https://github.com/user-attachments/assets/44be71fe-419c-4aeb-b034-740eba770ae3"> <br>
 
 Output: 3
 Explanation: After flips a = 1 , b = 4 , c = 5 such that (a OR b == c)
