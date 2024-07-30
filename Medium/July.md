@@ -281,3 +281,22 @@ function tribonacci(n: number): number {
     return sum;
 };
 ```
+
+Another approach: Using Map
+
+```
+function tribonacci(n: number): number {
+    const triBoMaP = new Map();
+    triBoMaP.set(0, 0);
+    triBoMaP.set(1, 1);
+    triBoMaP.set(2, 1);
+
+    if (triBoMaP.has(n)) {
+        return triBoMaP.get(n);
+    }
+    for (let i = 3; i <= n; i++) {
+        triBoMaP.set(i, triBoMaP.get(i-3)+ triBoMaP.get(i-2) + triBoMaP.get(i-1));
+    }
+    return triBoMaP.get(n);
+}
+```
