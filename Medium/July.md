@@ -237,3 +237,47 @@ function minFlips(a: number, b: number, c: number): number {
     return flips;
 };
 ```
+1137. N-th Tribonacci Number
+
+The Tribonacci sequence Tn is defined as follows: 
+
+T0 = 0, T1 = 1, T2 = 1, and Tn+3 = Tn + Tn+1 + Tn+2 for n >= 0.
+
+Given n, return the value of Tn.
+
+ 
+
+Example 1:
+
+Input: n = 4
+Output: 4
+Explanation:
+T_3 = 0 + 1 + 1 = 2
+T_4 = 1 + 1 + 2 = 4
+Example 2:
+
+Input: n = 25
+Output: 1389537
+Code:
+
+```
+function tribonacci(n: number): number {
+    let f1 = 0;
+    let f2 = 1;
+    let f3 = 1;
+    let sum = 0;
+    if(n==0){
+        return f1;
+    }
+    if(n <= 2){
+        return f2;
+    }
+    for(let i = 0; i< n - 2; i++){
+        sum = f1 + f2 + f3;
+        f1 = f2;
+        f2 = f3;
+        f3 = sum;
+    }
+    return sum;
+};
+```
