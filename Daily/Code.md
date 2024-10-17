@@ -139,7 +139,7 @@ Input: a = 7, b = 1, c = 0
 Output: "aabaa"
 Explanation: It is the only correct answer in this case.
 
-Code: Need to re-look
+Code: 
 
 ```
 import heapq
@@ -188,4 +188,33 @@ class Solution:
         
         # Return the result as a string
         return ''.join(result)
+```
+670. Maximum Swap
+
+
+You are given an integer num. You can swap two digits at most once to get the maximum valued number.
+Return the maximum valued number you can get.
+Example 1:
+Input: num = 2736
+Output: 7236
+Explanation: Swap the number 2 and the number 7.
+Code: Re-look
+```
+digits = list(str(num))
+    
+    # Create a dictionary to store the last occurrence of each digit
+    last = {int(x): i for i, x in enumerate(digits)}
+    
+    # Iterate through the digits
+    for i, digit in enumerate(digits):
+        # Check for a larger digit to swap with
+        for d in range(9, int(digit), -1):
+            if last.get(d, -1) > i:
+                # Swap the digits
+                digits[i], digits[last[d]] = digits[last[d]], digits[i]
+                # Convert back to integer and return
+                return int(''.join(digits))
+    
+    # If no swap was made, return the original number
+    return num
 ```
