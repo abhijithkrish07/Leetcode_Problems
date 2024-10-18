@@ -226,3 +226,37 @@ digits = list(str(num))
     # If no swap was made, return the original number
     return num
 ```
+2044. Count Number of Maximum Bitwise-OR Subsets - Need to relook
+
+Given an integer array nums, find the maximum possible bitwise OR of a subset of nums and return the number of different non-empty subsets with the maximum bitwise OR.
+
+An array a is a subset of an array b if a can be obtained from b by deleting some (possibly zero) elements of b. Two subsets are considered different if the indices of the elements chosen are different.
+
+The bitwise OR of an array a is equal to a[0] OR a[1] OR ... OR a[a.length - 1] (0-indexed).
+
+
+```
+from itertools import combinations
+class Solution:
+    def countMaxOrSubsets(self, nums: List[int]) -> int:
+        # Step 1: Calculate the maximum possible bitwise OR of the entire array
+        max_or = 0
+        for num in nums:
+            max_or |= num
+        
+        # Step 2: Use a recursive function to count subsets with the maximum bitwise OR
+        def dfs(index, current_or):
+            nonlocal count
+            if index == len(nums):
+                if current_or == max_or:
+                    count += 1
+                return
+            # Include the current element
+            dfs(index + 1, current_or | nums[index])
+            # Exclude the current element
+            dfs(index + 1, current_or)
+        
+        count = 0
+        dfs(0, 0)
+        return count
+```
