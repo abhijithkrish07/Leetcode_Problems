@@ -189,7 +189,7 @@ class Solution:
         # Return the result as a string
         return ''.join(result)
 ```
-670. Maximum Swap - Need to relook
+670. Maximum Swap
 
 
 You are given an integer num. You can swap two digits at most once to get the maximum valued number.
@@ -208,23 +208,37 @@ Explanation: No swap.
 
 Code: Re-look
 ```
-digits = list(str(num))
-    
-    # Create a dictionary to store the last occurrence of each digit
-    last = {int(x): i for i, x in enumerate(digits)}
-    
-    # Iterate through the digits
-    for i, digit in enumerate(digits):
-        # Check for a larger digit to swap with
-        for d in range(9, int(digit), -1):
-            if last.get(d, -1) > i:
-                # Swap the digits
-                digits[i], digits[last[d]] = digits[last[d]], digits[i]
-                # Convert back to integer and return
-                return int(''.join(digits))
-    
-    # If no swap was made, return the original number
-    return num
+class Solution:
+    def maximumSwap(self, num: int) -> int:
+        # Step 1: Convert the integer to a string
+        # Step 2: Convert the string to a list of characters (digits)
+        digits = list(str(num))
+        
+        # Step 3: Implement a function to find the maximum number by swapping digits at most twice
+        def swap_to_maximize(digits, swaps):
+            n = len(digits)
+            for i in range(n):
+                if swaps == 0:
+                    break
+                # Find the maximum digit to the right of the current position
+                max_digit = max(digits[i:])
+                if digits[i] != max_digit:
+                    # Find the rightmost occurrence of the max_digit
+                    max_digit_index = ''.join(digits).rfind(max_digit)
+                    print(max_digit_index)
+                    # Swap the current digit with the max_digit
+                    digits[i], digits[max_digit_index] = digits[max_digit_index], digits[i]
+                    swaps -= 1
+            return digits
+        
+        # Step 4: Use the function to maximize the number with at most 2 swaps
+        max_digits = swap_to_maximize(digits, 1)
+        
+        # Convert the list of digits back to an integer
+        max_num = int(''.join(max_digits))
+        
+        return max_num
+
 ```
 2044. Count Number of Maximum Bitwise-OR Subsets - Need to relook
 
