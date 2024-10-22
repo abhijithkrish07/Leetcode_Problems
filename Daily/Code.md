@@ -1,4 +1,4 @@
-Medium - 14/10/2024
+![image](https://github.com/user-attachments/assets/6f434e6a-9ce4-4176-8f58-6d5698c9c8b6)Medium - 14/10/2024
 
 Q:
 2530. Maximal Score After Applying K Operations
@@ -392,4 +392,71 @@ class Solution:
             return max_count
         
         return backtrack(0, set())
+```
+2583. Kth Largest Sum in a Binary Tree - need to relook
+
+You are given the root of a binary tree and a positive integer k.
+
+The level sum in the tree is the sum of the values of the nodes that are on the same level.
+
+Return the kth largest level sum in the tree (not necessarily distinct). If there are fewer than k levels in the tree, return -1.
+
+Note that two nodes are on the same level if they have the same distance from the root.
+
+Example 1:
+
+
+Input: root = [5,8,9,2,1,3,7,4,6], k = 2
+
+![image](https://github.com/user-attachments/assets/4e8b2ec5-da53-4a68-845e-a550b6892db4)
+
+Output: 13
+
+Explanation: The level sums are the following:
+- Level 1: 5.
+- Level 2: 8 + 9 = 17.
+- Level 3: 2 + 1 + 3 + 7 = 13.
+- Level 4: 4 + 6 = 10.
+The 2nd largest level sum is 13.
+
+CODE:
+```
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def kthLargestLevelSum(self, root: Optional[TreeNode], k: int) -> int:
+        if not root:
+            return -1
+
+        # Perform level order traversal to calculate level sums
+        level_sums = []
+        queue = deque([root])
+        
+        while queue:
+            level_size = len(queue)
+            level_sum = 0
+            
+            for _ in range(level_size):
+                node = queue.popleft()
+                level_sum += node.val
+                
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+            
+            level_sums.append(level_sum)
+        
+        # Sort the level sums in descending order
+        level_sums.sort(reverse=True)
+        
+        # Return the kth largest level sum if it exists
+        if k <= len(level_sums):
+            return level_sums[k - 1]
+        else:
+            return -1
 ```
