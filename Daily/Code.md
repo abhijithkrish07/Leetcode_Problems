@@ -593,3 +593,42 @@ class Solution {
     }
 }
 ```
+
+1233. Remove Sub-Folders from the Filesystem
+
+Given a list of folders folder, return the folders after removing all sub-folders in those folders. You may return the answer in any order.
+
+If a folder[i] is located within another folder[j], it is called a sub-folder of it. A sub-folder of folder[j] must start with folder[j], followed by a "/". For example, "/a/b" is a sub-folder of "/a", but "/b" is not a sub-folder of "/a/b/c".
+
+The format of a path is one or more concatenated strings of the form: '/' followed by one or more lowercase English letters.
+
+For example, "/leetcode" and "/leetcode/problems" are valid paths while an empty string and "/" are not.
+ 
+
+Example 1:
+
+Input: folder = ["/a","/a/b","/c/d","/c/d/e","/c/f"]
+Output: ["/a","/c/d","/c/f"]
+Explanation: Folders "/a/b" is a subfolder of "/a" and "/c/d/e" is inside of folder "/c/d" in our filesystem.
+
+```
+class Solution:
+    def removeSubfolders(self, folder: List[str]) -> List[str]:
+        # Step 1: Sort the folders lexicographically
+        folder.sort()
+        
+        # Step 2: Initialize the result list and the previous folder variable
+        result = []
+        prev = ""
+        
+        # Step 3: Iterate through each folder
+        for f in folder:
+            # Step 4: Check if the current folder is a sub-folder of the previous folder
+            if not prev or not f.startswith(prev + "/"):
+                result.append(f)
+                prev = f
+        
+        # Step 5: Return the result list
+        return result
+```
+
