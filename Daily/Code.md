@@ -631,4 +631,177 @@ class Solution:
         # Step 5: Return the result list
         return result
 ```
+2458. Height of Binary Tree After Subtree Removal Queries
 
+You are given the root of a binary tree with n nodes. Each node is assigned a unique value from 1 to n. You are also given an array queries of size m.
+
+You have to perform m independent queries on the tree where in the ith query you do the following:
+
+Remove the subtree rooted at the node with the value queries[i] from the tree. It is guaranteed that queries[i] will not be equal to the value of the root.
+Return an array answer of size m where answer[i] is the height of the tree after performing the ith query.
+
+Note:
+
+The queries are independent, so the tree returns to its initial state after each query.
+The height of a tree is the number of edges in the longest simple path from the root to some node in the tree.
+
+![image](https://github.com/user-attachments/assets/6afd7866-3924-4a20-a3d6-15911472b8d1)
+
+Input: root = [1,3,4,2,null,6,5,null,null,null,null,null,7], queries = [4]
+Output: [2]
+Explanation: The diagram above shows the tree after removing the subtree rooted at node with value 4.
+The height of the tree is 2 (The path 1 -> 3 -> 2).
+
+```
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+
+    // Map to store the height of each node
+    private Map<Integer, Integer> heights = new HashMap<>();
+    // Map to store the maximum height of the tree after removing each node
+    private Map<Integer, Integer> removalHeights = new HashMap<>();
+    private int currentMaxHeight = 0;
+
+    public int[] treeQueries(TreeNode root, int[] queries) {
+        computeHeights(root);
+        currentMaxHeight = 0; // Reset for the second traversal
+        traverseLeftToRight(root, 0);
+        currentMaxHeight = 0; // Reset for the second traversal
+        traverseRightToLeft(root, 0);
+
+        // Process queries and build the result array
+        int queryCount = queries.length;
+        int[] queryResults = new int[queryCount];
+        for (int i = 0; i < queryCount; i++) {
+            queryResults[i] = removalHeights.get(queries[i]);
+        }
+
+        return queryResults;
+    }
+
+    private int computeHeights(TreeNode node) {
+        if (node == null) {
+            return -1;
+        }
+        int leftHeight = computeHeights(node.left);
+        int rightHeight = computeHeights(node.right);
+        int height = 1 + Math.max(leftHeight, rightHeight);
+        heights.put(node.val, height);
+        return height;
+    }
+
+    private void traverseLeftToRight(TreeNode node, int currentHeight) {
+        if (node == null) return;
+
+        // Store the maximum height if this node were removed
+        removalHeights.put(node.val, currentMaxHeight);
+
+        // Update the current maximum height
+        currentMaxHeight = Math.max(currentMaxHeight, currentHeight);
+
+        // Traverse left subtree first, then right
+        traverseLeftToRight(node.left, currentHeight + 1);
+        traverseLeftToRight(node.right, currentHeight + 1);
+    }
+
+    private void traverseRightToLeft(TreeNode node, int currentHeight) {
+        if (node == null) return;
+
+        // Update the maximum height if this node were removed
+        removalHeights.put(node.val, Math.max(removalHeights.get(node.val), currentMaxHeight));
+
+        // Update the current maximum height
+        currentMaxHeight = Math.max(currentHeight, currentMaxHeight);
+
+        // Traverse right subtree first, then left
+        traverseRightToLeft(node.right, currentHeight + 1);
+        traverseRightToLeft(node.left, currentHeight + 1);
+    }
+}
+```
+
+Editoral Soln:
+```
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+
+    // Array to store the maximum height of the tree after removing each node
+    static final int[] maxHeightAfterRemoval = new int[100001];
+
+    int currentMaxHeight = 0;
+
+    public int[] treeQueries(TreeNode root, int[] queries) {
+        traverseLeftToRight(root, 0);
+        currentMaxHeight = 0; // Reset for the second traversal
+        traverseRightToLeft(root, 0);
+
+        // Process queries and build the result array
+        int queryCount = queries.length;
+        int[] queryResults = new int[queryCount];
+        for (int i = 0; i < queryCount; i++) {
+            queryResults[i] = maxHeightAfterRemoval[queries[i]];
+        }
+
+        return queryResults;
+    }
+
+    private void traverseLeftToRight(TreeNode node, int currentHeight) {
+        if (node == null) return;
+
+        // Store the maximum height if this node were removed
+        maxHeightAfterRemoval[node.val] = currentMaxHeight;
+
+        // Update the current maximum height
+        currentMaxHeight = Math.max(currentMaxHeight, currentHeight);
+
+        // Traverse left subtree first, then right
+        traverseLeftToRight(node.left, currentHeight + 1);
+        traverseLeftToRight(node.right, currentHeight + 1);
+    }
+
+    private void traverseRightToLeft(TreeNode node, int currentHeight) {
+        if (node == null) return;
+
+        // Update the maximum height if this node were removed
+        maxHeightAfterRemoval[node.val] = Math.max(
+            maxHeightAfterRemoval[node.val],
+            currentMaxHeight
+        );
+
+        // Update the current maximum height
+        currentMaxHeight = Math.max(currentHeight, currentMaxHeight);
+
+        // Traverse right subtree first, then left
+        traverseRightToLeft(node.right, currentHeight + 1);
+        traverseRightToLeft(node.left, currentHeight + 1);
+    }
+}
+```
