@@ -922,3 +922,52 @@ public class Solution {
     }
 }
 ```
+1671. Minimum Number of Removals to Make Mountain Array
+
+You may recall that an array arr is a mountain array if and only if:
+
+arr.length >= 3
+There exists some index i (0-indexed) with 0 < i < arr.length - 1 such that:
+arr[0] < arr[1] < ... < arr[i - 1] < arr[i]
+arr[i] > arr[i + 1] > ... > arr[arr.length - 1]
+Given an integer array nums​​​, return the minimum number of elements to remove to make nums​​​ a mountain array.
+
+```
+from typing import List
+import bisect
+
+class Solution:
+    def minimumMountainRemovals(self, nums: List[int]) -> int:
+        n = len(nums)
+        if n < 3:
+            return 0
+
+        # Function to calculate LIS ending at each index
+        def calculate_lis(nums):
+            lis = [0] * n
+            seq = []
+            for i in range(n):
+                pos = bisect.bisect_left(seq, nums[i])
+                if pos == len(seq):
+                    seq.append(nums[i])
+                else:
+                    seq[pos] = nums[i]
+                lis[i] = pos + 1
+            return lis
+
+        # Calculate LIS from left to right
+        inc = calculate_lis(nums)
+
+        # Calculate LIS from right to left (LDS)
+        dec = calculate_lis(nums[::-1])[::-1]
+
+        # Find the maximum value of inc[i] + dec[i] - 1
+        max_len = 0
+        for i in range(1, n-1):
+            if inc[i] > 1 and dec[i] > 1:
+                max_len = max(max_len, inc[i] + dec[i] - 1)
+
+        # Calculate the minimum number of removals
+        return n - max_len
+
+```
