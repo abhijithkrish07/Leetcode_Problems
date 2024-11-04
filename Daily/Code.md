@@ -1093,3 +1093,65 @@ class Solution {
     }
 }
 ```
+3163. String Compression III
+
+Given a string word, compress it using the following algorithm:
+
+Begin with an empty string comp. While word is not empty, use the following operation:
+Remove a maximum length prefix of word made of a single character c repeating at most 9 times.
+Append the length of the prefix followed by c to comp.
+Return the string comp.
+
+```
+class Solution {
+    public String compressedString(String word) {
+        if (word == null || word.isEmpty()) {
+            return "";
+        }
+
+        StringBuilder res = new StringBuilder();
+        char prev = word.charAt(0);
+        int count = 1;
+
+        for (int i = 1; i < word.length(); i++) {
+            char letter = word.charAt(i);
+            if (prev == letter) {
+                count++;
+                if (count == 10) {
+                    res.append(count - 1).append(prev);
+                    count = 1;
+                }
+            } else {
+                res.append(count).append(prev);
+                prev = letter;
+                count = 1;
+            }
+        }
+        res.append(count).append(prev);
+
+        return res.toString();
+    }
+}
+```
+```
+class Solution:
+    def compressedString(self, word: str) -> str:
+        prev = word[0]
+        result = ""
+        count = 1
+        for i in range (1,len(word)):
+            if word[i] == prev:
+                if count + 1 > 9:
+                    result = result + str(count) + prev
+                    count = 1
+                else:
+                    count+=1
+            else:
+                result = result + str(count) + prev
+                count = 1
+                prev = word[i]
+            
+        
+        return result + str(count) + prev
+
+```
