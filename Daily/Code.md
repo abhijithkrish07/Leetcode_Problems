@@ -1369,3 +1369,62 @@ class Solution {
     }
 }
 ```
+3097. Shortest Subarray With OR at Least K II
+
+You are given an array nums of non-negative integers and an integer k.
+
+An array is called special if the bitwise OR of all of its elements is at least k.
+
+Return the length of the shortest special non-empty 
+subarray
+ of nums, or return -1 if no special subarray exists.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,3], k = 2
+
+Output: 1
+
+Explanation:
+
+The subarray [3] has OR value of 3. Hence, we return 1.
+```
+class Solution {
+
+    public int minimumSubarrayLength(int[] nums, int k) {
+        int left = 1;
+        int right = nums.length;
+        int minLength = -1;
+
+        // Binary search on the length of subarray
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+
+            if (hasValidSubarray(nums, k, mid)) {
+                minLength = mid;
+                right = mid - 1; // Try to find smaller length
+            } else {
+                left = mid + 1; // Try larger length
+            }
+        }
+
+        return minLength;
+    }
+
+    private boolean hasValidSubarray(int[] nums, int k, int length) {
+        int n = nums.length;
+        for (int i = 0; i <= n - length; i++) {
+            int current_or = 0;
+            for (int j = i; j < i + length; j++) {
+                current_or |= nums[j];
+            }
+            if (current_or >= k) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+```
