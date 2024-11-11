@@ -1428,3 +1428,76 @@ class Solution {
     }
 }
 ```
+2601. Prime Subtraction Operation
+
+You are given a 0-indexed integer array nums of length n.
+
+You can perform the following operation as many times as you want:
+
+Pick an index i that you haven’t picked before, and pick a prime p strictly less than nums[i], then subtract p from nums[i].
+Return true if you can make nums a strictly increasing array using the above operation and false otherwise.
+
+A strictly increasing array is an array whose each element is strictly greater than its preceding element.
+
+ 
+
+Example 1:
+
+Input: nums = [4,9,6,10]
+Output: true
+Explanation: In the first operation: Pick i = 0 and p = 3, and then subtract 3 from nums[0], so that nums becomes [1,9,6,10].
+In the second operation: i = 1, p = 7, subtract 7 from nums[1], so nums becomes equal to [1,2,6,10].
+After the second operation, nums is sorted in strictly increasing order, so the answer is true.
+
+```
+import java.util.ArrayList;
+import java.util.List;
+
+public class Solution {
+
+    // Helper function to check if a number is prime
+    public static boolean isPrime(int n) {
+        if (n <= 1) return false;
+        for (int i = 2; i * i <= n; i++) {
+            if (n % i == 0) return false;
+        }
+        return true;
+    }
+
+    // Helper function to get all prime numbers less than a given number
+    public static List<Integer> getPrimesLessThan(int n) {
+        List<Integer> primes = new ArrayList<>();
+        for (int i = 2; i < n; i++) {
+            if (isPrime(i)) {
+                primes.add(i);
+            }
+        }
+        return primes;
+    }
+
+    // Function to check if the array can be made strictly increasing
+    public static boolean primeSubOperation(int[] nums) {
+        int n = nums.length;
+        boolean[] used = new boolean[n];
+        
+        for (int i = 0; i < n; i++) {
+            List<Integer> primes = getPrimesLessThan(nums[i]);
+            for (int j = primes.size() - 1; j >= 0; j--) {
+                int p = primes.get(j);
+                if (nums[i] - p > (i > 0 ? nums[i - 1] : Integer.MIN_VALUE)) {
+                    nums[i] -= p;
+                    used[i] = true;
+                    break;
+                }
+            }
+        }
+
+        for (int i = 1; i < n; i++) {
+            if (nums[i] <= nums[i - 1]) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+```
