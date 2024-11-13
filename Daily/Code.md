@@ -1501,3 +1501,107 @@ public class Solution {
     }
 }
 ```
+2070. Most Beautiful Item for Each Query
+You are given a 2D integer array items where items[i] = [pricei, beautyi] denotes the price and beauty of an item respectively.
+
+You are also given a 0-indexed integer array queries. For each queries[j], you want to determine the maximum beauty of an item whose price is less than or equal to queries[j]. If no such item exists, then the answer to this query is 0.
+
+Return an array answer of the same length as queries where answer[j] is the answer to the jth query.
+
+ 
+
+Example 1:
+
+Input: items = [[1,2],[3,2],[2,4],[5,6],[3,5]], queries = [1,2,3,4,5,6]
+Output: [2,4,5,5,6,6]
+Explanation:
+- For queries[0]=1, [1,2] is the only item which has price <= 1. Hence, the answer for this query is 2.
+- For queries[1]=2, the items which can be considered are [1,2] and [2,4]. 
+  The maximum beauty among them is 4.
+- For queries[2]=3 and queries[3]=4, the items which can be considered are [1,2], [3,2], [2,4], and [3,5].
+  The maximum beauty among them is 5.
+- For queries[4]=5 and queries[5]=6, all items can be considered.
+  Hence, the answer for them is the maximum beauty of all items, i.e., 6.
+
+```
+from bisect import bisect_right
+
+class Solution:
+    def maximumBeauty(self, items, queries):
+        # Sort items by price
+        items.sort()
+        
+        # Precompute the maximum beauty for each price
+        max_beauties = []
+        current_max = 0
+        for price, beauty in items:
+            current_max = max(current_max, beauty)
+            max_beauties.append((price, current_max))
+        
+        # Function to find the maximum beauty for a given query
+        def find_max_beauty(query):
+            idx = bisect_right(max_beauties, (query, float('inf'))) - 1
+            return max_beauties[idx][1] if idx >= 0 else 0
+        
+        # Compute the result for each query
+        return [find_max_beauty(query) for query in queries]
+```
+2563. Count the Number of Fair Pairs
+
+Given a 0-indexed integer array nums of size n and two integers lower and upper, return the number of fair pairs.
+
+A pair (i, j) is fair if:
+
+0 <= i < j < n, and
+lower <= nums[i] + nums[j] <= upper
+ 
+
+Example 1:
+
+Input: nums = [0,1,7,4,4,5], lower = 3, upper = 6
+Output: 6
+Explanation: There are 6 fair pairs: (0,3), (0,4), (0,5), (1,3), (1,4), and (1,5).
+
+```
+import java.util.Arrays;
+
+class Solution {
+    public long countFairPairs(int[] nums, int lower, int upper) {
+        Arrays.sort(nums);
+        int n = nums.length;
+        long count = 0;
+
+        for (int i = 0; i < n; i++) {
+            int left = i + 1;
+            int right = n - 1;
+
+            while (left <= right) {
+                int mid = left + (right - left) / 2;
+                if (nums[i] + nums[mid] < lower) {
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
+                }
+            }
+            int low = left;
+
+            left = i + 1;
+            right = n - 1;
+
+            while (left <= right) {
+                int mid = left + (right - left) / 2;
+                if (nums[i] + nums[mid] <= upper) {
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
+                }
+            }
+            int high = right;
+
+            count += (high - low + 1);
+        }
+
+        return count;
+    }
+}
+```
