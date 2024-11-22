@@ -1759,3 +1759,49 @@ class Solution {
     }
 }
 ```
+1072. Flip Columns For Maximum Number of Equal Rows
+
+You are given an m x n binary matrix matrix.
+
+You can choose any number of columns in the matrix and flip every cell in that column (i.e., Change the value of the cell from 0 to 1 or vice versa).
+
+Return the maximum number of rows that have all values equal after some number of flips.
+
+ 
+
+Example 1:
+
+Input: matrix = [[0,1],[1,1]]
+Output: 1
+Explanation: After flipping no values, 1 row has all values equal.
+
+```
+class Solution {
+    public int maxEqualRowsAfterFlips(int[][] matrix) {
+       Map<String, Integer> patternCount = new HashMap<>();
+        
+        for (int[] row : matrix) {
+            StringBuilder pattern = new StringBuilder();
+            StringBuilder complement = new StringBuilder();
+            
+            for (int cell : row) {
+                pattern.append(cell);
+                complement.append(1 - cell);
+            }
+            
+            String patternStr = pattern.toString();
+            String complementStr = complement.toString();
+            
+            patternCount.put(patternStr, patternCount.getOrDefault(patternStr, 0) + 1);
+            patternCount.put(complementStr, patternCount.getOrDefault(complementStr, 0) + 1);
+        }
+        
+        int maxRows = 0;
+        for (int count : patternCount.values()) {
+            maxRows = Math.max(maxRows, count);
+        }
+        
+        return maxRows;  
+    }
+}
+```
