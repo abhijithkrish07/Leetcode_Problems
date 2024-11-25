@@ -1898,3 +1898,83 @@ class Solution {
     }
 }
 ```
+Sliding Puzzle
+
+On an 2 x 3 board, there are five tiles labeled from 1 to 5, and an empty square represented by 0. A move consists of choosing 0 and a 4-directionally adjacent number and swapping it.
+
+The state of the board is solved if and only if the board is [[1,2,3],[4,5,0]].
+
+Given the puzzle board board, return the least number of moves required so that the state of the board is solved. If it is impossible for the state of the board to be solved, return -1.
+
+ 
+
+Example 1:
+
+
+Input: board = [[1,2,3],[4,0,5]]
+Output: 1
+Explanation: Swap the 0 and the 5 in one move.
+
+```
+import java.util.*;
+
+public class Solution {
+    public int slidingPuzzle(int[][] board) {
+        String target = "123450";
+        StringBuilder start = new StringBuilder();
+        for (int[] row : board) {
+            for (int num : row) {
+                start.append(num);
+            }
+        }
+        
+        Map<Integer, List<Integer>> neighbors = new HashMap<>();
+        neighbors.put(0, Arrays.asList(1, 3));
+        neighbors.put(1, Arrays.asList(0, 2, 4));
+        neighbors.put(2, Arrays.asList(1, 5));
+        neighbors.put(3, Arrays.asList(0, 4));
+        neighbors.put(4, Arrays.asList(1, 3, 5));
+        neighbors.put(5, Arrays.asList(2, 4));
+        
+        return bfs(start.toString(), target, neighbors);
+    }
+    
+    private List<String> getNextStates(String state, Map<Integer, List<Integer>> neighbors) {
+        int zeroIndex = state.indexOf('0');
+        List<String> nextStates = new ArrayList<>();
+        for (int neighbor : neighbors.get(zeroIndex)) {
+            char[] newState = state.toCharArray();
+            newState[zeroIndex] = newState[neighbor];
+            newState[neighbor] = '0';
+            nextStates.add(new String(newState));
+        }
+        return nextStates;
+    }
+    
+    private int bfs(String start, String target, Map<Integer, List<Integer>> neighbors) {
+        Queue<String> queue = new LinkedList<>();
+        Set<String> visited = new HashSet<>();
+        queue.offer(start);
+        visited.add(start);
+        int steps = 0;
+        
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                String current = queue.poll();
+                if (current.equals(target)) {
+                    return steps;
+                }
+                for (String nextState : getNextStates(current, neighbors)) {
+                    if (!visited.contains(nextState)) {
+                        queue.offer(nextState);
+                        visited.add(nextState);
+                    }
+                }
+            }
+            steps++;
+        }
+        return -1; // If the puzzle is unsolvable
+    }
+}
+```
