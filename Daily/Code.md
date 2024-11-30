@@ -2018,3 +2018,73 @@ class Solution {
     }
 }
 ```
+2097. Valid Arrangement of Pairs
+
+You are given a 0-indexed 2D integer array pairs where pairs[i] = [starti, endi]. An arrangement of pairs is valid if for every index i where 1 <= i < pairs.length, we have endi-1 == starti.
+
+Return any valid arrangement of pairs.
+
+Note: The inputs will be generated such that there exists a valid arrangement of pairs.
+
+ 
+
+Example 1:
+
+Input: pairs = [[5,1],[4,5],[11,9],[9,4]]
+Output: [[11,9],[9,4],[4,5],[5,1]]
+Explanation:
+This is a valid arrangement since endi-1 always equals starti.
+end0 = 9 == 9 = start1 
+end1 = 4 == 4 = start2
+end2 = 5 == 5 = start3
+
+```
+import java.util.*;
+
+public class Solution {
+    public int[][] validArrangement(int[][] pairs) {
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        Map<Integer, Integer> inDegree = new HashMap<>();
+        Map<Integer, Integer> outDegree = new HashMap<>();
+        
+        // Build the graph and count in-degrees and out-degrees
+        for (int[] pair : pairs) {
+            int start = pair[0];
+            int end = pair[1];
+            graph.computeIfAbsent(start, k -> new ArrayList<>()).add(end);
+            outDegree.put(start, outDegree.getOrDefault(start, 0) + 1);
+            inDegree.put(end, inDegree.getOrDefault(end, 0) + 1);
+        }
+        
+        // Find the starting node
+        int startNode = pairs[0][0];
+        for (int node : outDegree.keySet()) {
+            if (outDegree.get(node) - inDegree.getOrDefault(node, 0) == 1) {
+                startNode = node;
+                break;
+            }
+        }
+        
+        // Perform DFS to find the Eulerian path
+        List<int[]> result = new ArrayList<>();
+        Deque<Integer> stack = new ArrayDeque<>();
+        stack.push(startNode);
+        
+        while (!stack.isEmpty()) {
+            int node = stack.peek();
+            if (graph.containsKey(node) && !graph.get(node).isEmpty()) {
+                stack.push(graph.get(node).remove(graph.get(node).size() - 1));
+            } else {
+                stack.pop();
+                if (!stack.isEmpty()) {
+                    result.add(new int[]{stack.peek(), node});
+                }
+            }
+        }
+        
+        // Convert the result list to array
+        Collections.reverse(result);
+        return result.toArray(new int[result.size()][]);
+    }
+}
+```
